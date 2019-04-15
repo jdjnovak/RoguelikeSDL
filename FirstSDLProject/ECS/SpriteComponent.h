@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "Components.h"
+#include "../TextureManager.h"
 
 class SpriteComponent : public Component {
 private:
@@ -16,6 +17,10 @@ public:
 		texture = TextureManager::LoadTexture(filename);
 	}
 
+	~SpriteComponent() {
+		SDL_DestroyTexture(texture);
+	}
+
 	void Init() override {
 
 		if (!texture)
@@ -24,13 +29,15 @@ public:
 		transform = &entity->GetComponent<TransformComponent>();
 
 		srcRect.x = srcRect.y = 0;
-		srcRect.w = srcRect.h = 32;
-		destRect.w = destRect.h = 64;
+		srcRect.w = transform->width;
+		srcRect.h = transform->height;
 	}
 
 	void Update() override {
 		destRect.x = (int)transform->position.x;
 		destRect.y = (int)transform->position.y;
+		destRect.w = transform->width * transform->scale;
+		destRect.h = transform->height * transform->scale;
 	}
 
 	void Draw() override {

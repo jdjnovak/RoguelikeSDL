@@ -1,0 +1,34 @@
+#ifndef _COLLIDER_COMPONENT_H
+#define _COLLIDER_COMPONENT_H
+
+#include <string>
+#include "SDL.h"
+#include "Components.h"
+
+class ColliderComponent : public Component {
+public:
+	SDL_Rect collider;
+	std::string tag;
+
+	TransformComponent* transform;
+
+	ColliderComponent(std::string t) {
+		tag = t;
+	}
+
+	void Init() override {
+		if (!entity->HasComponent<TransformComponent>()) {
+			entity->AddComponent<TransformComponent>();
+		}
+		transform = &entity->GetComponent<TransformComponent>();
+	}
+
+	void Update() override {
+		collider.x = static_cast<int>(transform->position.x);
+		collider.y = static_cast<int>(transform->position.y);
+		collider.w = transform->width * transform->scale;
+		collider.h = transform->height * transform->scale;
+	}
+};
+
+#endif //_COLLIDER_COMPONENT_H

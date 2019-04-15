@@ -64,7 +64,7 @@ public:
 
 	template <typename T, typename... TArgs>
 	T& AddComponent(TArgs&&... mArgs) {
-		T* c(new T(std::forward<TArgs>()(mArgs)...));
+		T* c(new T(std::forward<TArgs>(mArgs)...));
 		c->entity = this;
 		std::unique_ptr<Component> uPtr{ c };
 		components.emplace_back(std::move(uPtr));

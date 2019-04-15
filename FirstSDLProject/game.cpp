@@ -2,11 +2,13 @@
 #include "TextureManager.h"
 #include "Map.h"
 #include "ECS\Components.h"
+#include "Vector2D.h"
 
 Map* map;
-SDL_Renderer* Game::renderer = nullptr;
-
 Manager manager;
+
+SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
 auto& player(manager.AddEntity());
 
 Game::Game() {
@@ -35,13 +37,12 @@ void Game::Init(const char *title, int xpos, int ypos, int width, int height, bo
 
 	map = new Map();
 
-	player.AddComponent<PositionComponent>();
-	player.AddComponent<SpriteComponent>();
-	//player.AddComponent<SpriteComponent>("assets/character.png");
+	player.AddComponent<TransformComponent>();
+	player.AddComponent<SpriteComponent>("assets/character.png");
+	
 }
 
 void Game::HandleEvents() {
-	SDL_Event event;
 	SDL_PollEvent(&event);
 
 	switch(event.type) {
@@ -56,6 +57,11 @@ void Game::HandleEvents() {
 void Game::Update() {
 	manager.Refresh();
 	manager.Update();
+
+	player.GetComponent<TransformComponent>().position.Add(Vector2D(2.0f, 3.0f));
+	if (player.GetComponent<TransformComponent>().position.x > 100) {
+		player.GetComponent<SpriteComponent>().SetTexture("assets/dirt.png");
+	}
 	//std::cout << player.GetComponent<PositionComponent>().X() << ", " << player.GetComponent<PositionComponent>().Y() << std::endl;
 }
 

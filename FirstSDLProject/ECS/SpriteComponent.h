@@ -23,9 +23,6 @@ public:
 
 	void Init() override {
 
-		if (!texture)
-			SetTexture("assets/character.png"); // Default
-
 		transform = &entity->GetComponent<TransformComponent>();
 
 		srcRect.x = srcRect.y = 0;
@@ -34,8 +31,8 @@ public:
 	}
 
 	void Update() override {
-		destRect.x = (int)transform->position.x;
-		destRect.y = (int)transform->position.y;
+		destRect.x = static_cast<int>(transform->position.x);
+		destRect.y = static_cast<int>(transform->position.y);
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 	}

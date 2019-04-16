@@ -17,13 +17,11 @@ public:
 	int speed = 3; // Temp for now
 
 	TransformComponent() {
-		position.x = 0.0f;
-		position.y = 0.0f;
+		position.Zero();
 	}
 
 	TransformComponent(int sc) {
-		position.x = 0.0f;
-		position.y = 0.0f;
+		position.Zero();
 		scale = sc;
 	}
 
@@ -41,8 +39,7 @@ public:
 	}
 
 	void Init() override {
-		velocity.x = 0.0f;
-		velocity.y = 0.0f;
+		velocity.Zero();
 	}
 
 	void Update() override {
